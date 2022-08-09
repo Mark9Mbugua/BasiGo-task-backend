@@ -21,22 +21,22 @@ const sequelize = new Sequelize(
   }
 );
 
-// let server;
-// const initializeBackendServer = async () => {
-//   try {
-//     await sequelize.authenticate();
-//     // Only start server after the db connect was verified
-//     console.log("API::Database connection has been established successfully.");
-//     app.listen(PORT || 4010);
-//     console.log("API::Twaa API Engine started on: " + PORT);
-//     server = http.createServer(app);
-//     const { START_SOCKETS_SERVER } = require("./sockets");
-//     START_SOCKETS_SERVER(app, server); //share the same app & server instance for the socket's passport instance
-//   } catch (error) {
-//     console.error("API::Unable to connect to the database:", error);
-//   }
-// };
-// initializeBackendServer();
+let server;
+const initializeBackendServer = async () => {
+  try {
+    await sequelize.authenticate();
+    // Only start server after the db connect was verified
+    console.log("API::Database connection has been established successfully.");
+    app.listen(PORT || 4010);
+    console.log("API::Twaa API Engine started on: " + PORT);
+    server = http.createServer(app);
+    // const { START_SOCKETS_SERVER } = require("./sockets");
+    // START_SOCKETS_SERVER(app, server); //share the same app & server instance for the socket's passport instance
+  } catch (error) {
+    console.error("API::Unable to connect to the database:", error);
+  }
+};
+initializeBackendServer();
 
 app.use(express.json());
 
@@ -69,9 +69,3 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
-
-app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}`)
-  })
-
-// Register routes
