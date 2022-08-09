@@ -1,0 +1,35 @@
+{
+  "name": "basigo-task-backend",
+  "version": "1.0.0",
+  "description": "BasiGo Backend Task",
+  "main": "server.js",
+  "scripts": {
+    "start": "NODE_ENV=production nodemon  --trace-warnings server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mark9Mbugua/BasiGo-task-backend.git"
+  },
+  "author": "Mark Mbugua",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mark9Mbugua/BasiGo-task-backend/issues"
+  },
+  "homepage": "https://github.com/Mark9Mbugua/BasiGo-task-backend#readme",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.3.3",
+    "sequelize": "^6.21.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19",
+    "sequelize-cli": "^6.4.1"
+  }
+}
