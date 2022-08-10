@@ -30,8 +30,8 @@ db.sequelize = sequelize;
 
 db.user = require("./User")(sequelize, Sequelize);
 db.role = require("./Role")(sequelize, Sequelize);
-
 db.leads = require("./Lead")(sequelize, Sequelize);
+db.customers = require("./Customer")(sequelize, Sequelize);
 
 //Associations
 //users, roles and user roles
@@ -49,5 +49,9 @@ db.user.belongsToMany(db.role, {
 // leads and users
 db.leads.belongsTo(db.user, { foreignKey: "userId" });
 db.user.hasMany(db.leads, { foreignKey: "userId" });
+
+// leads and customers
+db.leads.hasOne(db.customers, { foreignKey: "leadId" });
+db.customers.belongsTo(db.leads, { foreignKey: "leadId" });
 
 module.exports = db;

@@ -1,6 +1,6 @@
 require("dotenv").config();
 const http = require("http");
-const fileUpload = require("express-fileupload");
+// const fileUpload = require("express-fileupload");
 const passport = require("passport");
 const session = require("express-session");
 const passportInit = require("./config/passport.init");
@@ -11,7 +11,6 @@ const express = require("express");
 const cors = require("cors");
 
 const PORT = process.env.PORT || 4010;
-// console.log(firebaseInit.messaging);
 const app = express();
 
 // Initialize sequelize and connect to the db
@@ -33,14 +32,13 @@ const initializeBackendServer = async () => {
     app.listen(PORT || 4010);
     console.log("API::Twaa API Engine started on: " + PORT);
     server = http.createServer(app);
-    // const { START_SOCKETS_SERVER } = require("./sockets");
-    // START_SOCKETS_SERVER(app, server); //share the same app & server instance for the socket's passport instance
   } catch (error) {
     console.error("API::Unable to connect to the database:", error);
   }
 };
 initializeBackendServer();
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use(passport.initialize());
@@ -50,13 +48,13 @@ passportInit();
 app.use(cookieParser());
 
 app.use(cors());
-app.use(
-  fileUpload({
-    safeFileNames: true,
-    // preserveExtension: true,
-    // tempFileDir: `${__dirname}/public/files/temp`
-  })
-);
+// app.use(
+//   fileUpload({
+//     safeFileNames: true,
+//     // preserveExtension: true,
+//     // tempFileDir: `${__dirname}/public/files/temp`
+//   })
+// );
 // saveUninitialized: true allows us to attach the socket id to the session
 // before we have athenticated the user
 // TO BE REMOVED OR MODIFIED HERE***
@@ -68,15 +66,12 @@ app.use(
   })
 );
 
-// Chrone Jobs
-// indexingJob.executeJob(); //Bulk indexing
-// dbBackupJob.executeJob();
-// usernameCheckJob.executeJob();
-// meetingsCredentialsJob.executeJob();
-
 //Register Routes
 const authRoutes = require("./routes/auth.routes");
 authRoutes(app);
 
 const leadRoutes = require("./routes/lead.routes");
 leadRoutes(app);
+
+const customerRoutes = require("./routes/customer.routes");
+customerRoutes(app);

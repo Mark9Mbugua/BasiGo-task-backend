@@ -1,4 +1,5 @@
 const db = require("../models/index.js");
+const { HANDLE_CUSTOMER_DETAILS } = require("../constants/functions/leads");
 
 /**
  * Creates a new tDeal
@@ -6,15 +7,25 @@ const db = require("../models/index.js");
  * @param {*} res
  */
 exports.createLead = async (req, res) => {
-  const { name, phone, location, gender } = req.body;
+  const { type, name, phone, location, gender } = req.body;
   try {
     const newLead = await db.leads.create({
       userId: req.userId,
+      type: Number(type),
       name,
       phone,
       location,
       gender,
     });
+
+    // Save Customer details
+    if (type == 1) {
+      console.log(type);
+      const photo = req.file;
+
+      await HANDLE_CUSTOMER_DETAILS(newLead.id, photo, req.body.annualEarning);
+    }
+
     res.json({
       success: true,
       message: "Lead created successfully",
@@ -35,7 +46,7 @@ exports.fetchLeadDetails = async (req, res) => {
   try {
     const { id } = req.params;
     const existingLead = await db.leads.findOne({
-      where: { id: Number(id) },
+      where: { id: Number(id), type: 0 },
     });
     if (!Boolean(existingLead)) {
       return res.json({
@@ -62,7 +73,10 @@ exports.fetchLeadDetails = async (req, res) => {
 exports.listAllLeads = async (req, res) => {
   try {
     let total = await db.leads.count();
-    const leads = await db.leads.findAll({ order: [["createdAt", "DESC"]] });
+    const leads = await db.leads.findAll({
+      where: [{ type: 0 }],
+      order: [["createdAt", "DESC"]],
+    });
     res.json({
       success: true,
       message: "Fetched All Leads!",
