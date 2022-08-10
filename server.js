@@ -30,8 +30,6 @@ const initializeBackendServer = async () => {
     app.listen(PORT || 4010);
     console.log("API::Twaa API Engine started on: " + PORT);
     server = http.createServer(app);
-    // const { START_SOCKETS_SERVER } = require("./sockets");
-    // START_SOCKETS_SERVER(app, server); //share the same app & server instance for the socket's passport instance
   } catch (error) {
     console.error("API::Unable to connect to the database:", error);
   }
@@ -39,12 +37,6 @@ const initializeBackendServer = async () => {
 initializeBackendServer();
 
 app.use(express.json());
-
-// app.use(passport.initialize());
-
-// passportInit();
-
-// app.use(cookieParser());
 
 app.use(cors());
 app.use(
@@ -69,3 +61,7 @@ app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Credentials", true);
   next();
 });
+
+//Register Routes
+const authRoutes = require("./routes/auth.routes");
+authRoutes(app);
