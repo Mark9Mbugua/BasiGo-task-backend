@@ -140,9 +140,6 @@ exports.signIn = async (req, res) => {
   try {
     const user = await db.user.findOne({
       where: { email: req.body.email },
-      //   attributes: {
-      //     exclude: ["password_reset_token", "createdAt", "updatedAt"],
-      //   },
       include: [
         {
           model: db.role,
@@ -157,7 +154,6 @@ exports.signIn = async (req, res) => {
       return res.json({
         auth: false,
         success: false,
-        // message: "Your details do not match any user in the system",
         message: "Your password or email is incorrect",
       });
     }
