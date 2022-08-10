@@ -31,7 +31,10 @@ db.sequelize = sequelize;
 db.user = require("./User")(sequelize, Sequelize);
 db.role = require("./Role")(sequelize, Sequelize);
 
-//users, roles and userroles
+db.leads = require("./Lead")(sequelize, Sequelize);
+
+//Associations
+//users, roles and user roles
 db.role.belongsToMany(db.user, {
   through: "UserRoles",
   foreignKey: "roleId",
@@ -43,10 +46,8 @@ db.user.belongsToMany(db.role, {
   otherKey: "roleId",
 });
 
-// db.role.belongsTo(db.user, { foreignKey: "roleId" });
-
-// db.user.hasOne(db.role, {
-//   foreignKey: "roleId",
-// });
+// leads and users
+db.leads.belongsTo(db.user, { foreignKey: "userId" });
+db.user.hasMany(db.leads, { foreignKey: "userId" });
 
 module.exports = db;
