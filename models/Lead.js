@@ -5,6 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     "Lead",
     {
       userId: DataTypes.INTEGER,
+      type: DataTypes.INTEGER,
       name: DataTypes.STRING,
       phone: DataTypes.INTEGER,
       location: DataTypes.STRING,
