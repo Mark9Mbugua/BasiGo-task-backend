@@ -10,7 +10,20 @@ exports.fetchCustomerDetails = async (req, res) => {
     const { leadId } = req.params;
     const existingLead = await db.leads.findOne({
       where: { id: Number(leadId), type: 1 },
-      include: [{ model: db.customers }, { model: db.user }],
+      include: [
+        {
+          model: db.customers,
+          include: [
+            {
+              model: db.products,
+              through: "CustomerProduct",
+              foreignKey: "customerId",
+              otherKey: "productId",
+            },
+          ],
+        },
+        { model: db.user },
+      ],
     });
     if (!Boolean(existingLead)) {
       return res.json({
@@ -39,6 +52,20 @@ exports.listAllCustomers = async (req, res) => {
     let total = await db.leads.count({ where: [{ type: 1 }] });
     const leads = await db.leads.findAll({
       where: [{ type: 1 }],
+      include: [
+        {
+          model: db.customers,
+          include: [
+            {
+              model: db.products,
+              through: "CustomerProduct",
+              foreignKey: "customerId",
+              otherKey: "productId",
+            },
+          ],
+        },
+        { model: db.user },
+      ],
       order: [["createdAt", "DESC"]],
     });
     res.json({
