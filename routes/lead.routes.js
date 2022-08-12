@@ -1,5 +1,6 @@
 const authJwt = require("../middleware/verifyJwtToken");
 const LeadsController = require("../controllers/LeadsController");
+const VerifyProduct = require("../middleware/verifyProduct");
 
 const multer = require("multer");
 const multerS3 = require("multer-s3");
@@ -36,7 +37,7 @@ const upload = multer({ dest: "uploads/" });
 module.exports = function (app) {
   app.post(
     "/api/leads/create",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, VerifyProduct.checkIfProductExists],
     upload.single("photo"),
     LeadsController.createLead
   );

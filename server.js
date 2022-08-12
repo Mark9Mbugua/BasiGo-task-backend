@@ -75,3 +75,6 @@ leadRoutes(app);
 
 const customerRoutes = require("./routes/customer.routes");
 customerRoutes(app);
+
+const productRoutes = require("./routes/product.routes");
+productRoutes(app);
