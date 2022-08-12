@@ -25,12 +25,14 @@ exports.createLead = async (req, res) => {
 
       if (req.body.products) {
         const productName = req.body.products;
+        console.log("Product Names", productName);
 
-        const product = await db.products.findOne({
+        const product = await db.products.findAll({
           where: {
             name: productName,
           },
         });
+        console.log("Product", product);
 
         await HANDLE_CUSTOMER_DETAILS(
           newLead.id,
@@ -62,6 +64,7 @@ exports.fetchLeadDetails = async (req, res) => {
     const { id } = req.params;
     const existingLead = await db.leads.findOne({
       where: { id: Number(id), type: 0 },
+      include: [{ model: db.user }],
     });
     if (!Boolean(existingLead)) {
       return res.json({
@@ -91,6 +94,7 @@ exports.listAllLeads = async (req, res) => {
     const leads = await db.leads.findAll({
       where: [{ type: 0 }],
       order: [["createdAt", "DESC"]],
+      include: [{ model: db.user }],
     });
     res.json({
       success: true,
