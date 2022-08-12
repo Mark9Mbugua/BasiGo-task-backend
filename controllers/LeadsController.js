@@ -18,20 +18,27 @@ exports.createLead = async (req, res) => {
       gender,
     });
 
-    const productType = req.body.products;
-
-    const product = await db.products.findOne({
-      where: {
-        name: productType,
-      },
-    });
-
     // Save Customer details
     if (type == 1) {
       console.log(type);
       const photo = req.file;
 
-      await HANDLE_CUSTOMER_DETAILS(newLead.id, photo, req.body.annualEarning, product);
+      if (req.body.products) {
+        const productName = req.body.products;
+
+        const product = await db.products.findOne({
+          where: {
+            name: productName,
+          },
+        });
+
+        await HANDLE_CUSTOMER_DETAILS(
+          newLead.id,
+          photo,
+          req.body.annualEarning,
+          product
+        );
+      }
     }
 
     res.json({
