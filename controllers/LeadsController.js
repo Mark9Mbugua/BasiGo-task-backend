@@ -24,7 +24,7 @@ exports.createLead = async (req, res) => {
       const photo = req.file;
 
       if (req.body.products) {
-        const productName = req.body.products;
+        const productName = JSON.parse(req.body.products);
         console.log("Product Names", productName);
 
         const product = await db.products.findAll({
@@ -32,7 +32,7 @@ exports.createLead = async (req, res) => {
             name: productName,
           },
         });
-        console.log("Product", product);
+        console.log("Product bana", product);
 
         await HANDLE_CUSTOMER_DETAILS(
           newLead.id,
