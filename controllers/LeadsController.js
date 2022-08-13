@@ -24,6 +24,11 @@ exports.createLead = async (req, res) => {
       const photo = req.file;
 
       if (req.body.products) {
+        /*
+        products are stringified on the client so and to enable them to be persisted into the DB
+        as arrays since the data object is in the multipart/form-data format. As a result testing this
+        endpoint on postman will return an error but works on the client side
+        */
         const productName = JSON.parse(req.body.products);
         console.log("Product Names", productName);
 
