@@ -56,6 +56,11 @@ db.leads.hasOne(db.customers, { foreignKey: "leadId" });
 db.customers.belongsTo(db.leads, { foreignKey: "leadId" });
 
 //customers, products and customer products
+
+//A customer is able to have multiple products and a product can belong to multiple users......
+//... in a many to many relationship. The CustomerProducts table allows me to create an association...
+//...between the  Products table and Customers table. I am therefore able to save products as comma separated values in an array.
+//For me, this is the best way to handle such a technical situation
 db.products.belongsToMany(db.customers, {
   through: "CustomerProducts",
   foreignKey: "productId",
