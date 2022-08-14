@@ -2,7 +2,7 @@ const db = require("../models/index.js");
 const { HANDLE_CUSTOMER_DETAILS } = require("../constants/functions/leads");
 
 /**
- * Creates a new tDeal
+ * Creates a new lead
  * @param {*} req
  * @param {*} res
  */
@@ -30,7 +30,9 @@ exports.createLead = async (req, res) => {
         endpoint on postman will return an error but works on the client side
         */
         const productName = JSON.parse(req.body.products);
-        console.log("Product Names", productName);
+
+        //user the function below while testing with postman or any other similar platform
+        // const productName = req.body.products;
 
         const product = await db.products.findAll({
           where: {
