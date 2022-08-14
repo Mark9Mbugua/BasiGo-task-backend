@@ -89,7 +89,7 @@ exports.fetchUserRole = async (req, res) => {
  */
 exports.signUp = async (req, res) => {
   try {
-    const newUser = await db.user.create({
+    let newUser = await db.user.create({
       username: req.body.fullname,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 12),
@@ -115,10 +115,15 @@ exports.signUp = async (req, res) => {
       expiresIn: "365d",
     });
 
+    newUser = {
+      newUser,
+      role,
+    };
+
     res.json({
       auth: true,
-      accesstoken: authtoken,
       success: "true",
+      accesstoken: authtoken,
       currentuser: newUser,
       message: "User registered successfully",
     });
@@ -231,6 +236,7 @@ exports.listUsers = async (req, res) => {
   try {
     let total = await db.user.count();
     const users = await db.user.findAll({
+      order: [["createdAt", "DESC"]],
       include: [
         {
           model: db.role,

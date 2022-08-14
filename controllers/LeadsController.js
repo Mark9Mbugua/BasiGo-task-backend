@@ -69,7 +69,16 @@ exports.fetchLeadDetails = async (req, res) => {
     const { id } = req.params;
     const existingLead = await db.leads.findOne({
       where: { id: Number(id), type: 0 },
-      include: [{ model: db.user }],
+      include: [
+        {
+          model: db.user,
+          include: [
+            {
+              model: db.role,
+            },
+          ],
+        },
+      ],
     });
     if (!Boolean(existingLead)) {
       return res.json({
@@ -99,7 +108,16 @@ exports.listAllLeads = async (req, res) => {
     const leads = await db.leads.findAll({
       where: [{ type: 0 }],
       order: [["createdAt", "DESC"]],
-      include: [{ model: db.user }],
+      include: [
+        {
+          model: db.user,
+          include: [
+            {
+              model: db.role,
+            },
+          ],
+        },
+      ],
     });
     res.json({
       success: true,
