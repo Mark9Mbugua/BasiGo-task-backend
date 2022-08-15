@@ -26,19 +26,19 @@ exports.fetchCustomerDetails = async (req, res) => {
       ],
     });
     if (!Boolean(existingLead)) {
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "Customer does not exist!",
       });
     }
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Customer retrived successfully",
       data: existingLead,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 
@@ -68,13 +68,13 @@ exports.listAllCustomers = async (req, res) => {
       ],
       order: [["createdAt", "DESC"]],
     });
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Fetched All Customers!",
       data: { leads, total },
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };

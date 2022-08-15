@@ -29,10 +29,10 @@ exports.createLead = async (req, res) => {
         as arrays since the data object is in the multipart/form-data format. As a result testing this
         endpoint on postman will return an error but works on the client side
         */
-        const productName = JSON.parse(req.body.products);
+        // const productName = JSON.parse(req.body.products);
 
         //user the function below while testing with postman or any other similar platform
-        // const productName = req.body.products;
+        const productName = req.body.products;
 
         const product = await db.products.findAll({
           where: {
@@ -50,14 +50,14 @@ exports.createLead = async (req, res) => {
       }
     }
 
-    res.json({
+    res.status(201).json({
       success: true,
       message: "Lead created successfully",
       data: newLead,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 

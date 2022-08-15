@@ -16,7 +16,7 @@ const signUpVerify = {
         },
       }).then((user) => {
         if (user) {
-          res.json({
+          res.status(400).json({
             success: "false",
             message: "Email already exists",
           });
@@ -27,10 +27,10 @@ const signUpVerify = {
     });
   },
 
-  checkRolesExisted: (req, res, next) => {
+  checkIfRoleExists: (req, res, next) => {
     // for (let i = 0; i < req.body.roles.length; i++) {
     if (!ROLES.includes(req.body.role.toUpperCase())) {
-      res.json({
+      res.status(400).json({
         success: "false",
         message: "Specified role does not exist",
       });
