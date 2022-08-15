@@ -30,7 +30,7 @@ const initializeBackendServer = async () => {
     // Only start server after the db connect was verified
     console.log("API::Database connection has been established successfully.");
     app.listen(PORT || 4010);
-    console.log("API::Twaa API Engine started on: " + PORT);
+    console.log("API::BasiGo Test Challenge API Engine started on: " + PORT);
     server = http.createServer(app);
   } catch (error) {
     console.error("API::Unable to connect to the database:", error);
