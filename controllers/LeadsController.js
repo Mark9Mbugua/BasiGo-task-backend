@@ -31,7 +31,7 @@ exports.createLead = async (req, res) => {
         */
         const productName = JSON.parse(req.body.products);
 
-        //user the function below while testing with postman or any other similar platform
+        //user the variable below while testing with postman or any other similar platform
         // const productName = req.body.products;
 
         const product = await db.products.findAll({

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       leadId: DataTypes.INTEGER,
       photo: DataTypes.STRING,
-      annualEarning: DataTypes.INTEGER,
+      annualEarning: DataTypes.STRING,
     },
     { timestamps: true }
   );
