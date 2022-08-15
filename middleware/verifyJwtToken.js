@@ -7,9 +7,8 @@ const config = require("../config/secrets.config.js");
 const verifyToken = (req, res, next) => {
   let token = req.headers["authorization"];
   if (!token) {
-    return res.json({
+    return res.status(403).json({
       success: false,
-      status: 403,
       accesstoken: null,
       message: "No auth token provided",
     });
@@ -18,9 +17,8 @@ const verifyToken = (req, res, next) => {
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
       console.log(err);
-      return res.json({
+      return res.status(500).json({
         success: false,
-        status: 500,
         accesstoken: null,
         message: "Failed to authenticate current user",
       });

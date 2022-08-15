@@ -6,7 +6,7 @@ const productVerify = {
     if (req.body.products) {
       for (let i = 0; i < req.body.products.length; i++) {
         if (!PRODUCTS.includes(req.body.product.toUpperCase())) {
-          res.json({
+          res.status(400).json({
             success: "false",
             message: "Specified product does not exist",
           });
