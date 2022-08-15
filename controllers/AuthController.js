@@ -26,14 +26,14 @@ exports.createUserRole = async (req, res) => {
       type,
     });
 
-    res.json({
+    res.status(201).json({
       success: true,
       message: "User role created successfully",
       data: newUserRole,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 
@@ -46,14 +46,14 @@ exports.listUserRoles = async (req, res) => {
   try {
     const userRoles = await db.role.findAll({});
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "All user roles retrived successfully",
       data: userRoles,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 
@@ -65,20 +65,20 @@ exports.fetchUserRole = async (req, res) => {
     });
 
     if (!Boolean(existingUserRole)) {
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "User role does not exist!",
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "User role retrived successfully",
       data: existingUserRole,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 
@@ -120,7 +120,7 @@ exports.signUp = async (req, res) => {
       role,
     };
 
-    res.json({
+    res.status(201).json({
       auth: true,
       success: "true",
       accesstoken: authtoken,
@@ -129,7 +129,7 @@ exports.signUp = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.json({
+    res.status(400).json({
       success: "false",
       message: "An error has occurred",
     });
@@ -156,7 +156,7 @@ exports.signIn = async (req, res) => {
       ],
     });
     if (!user) {
-      return res.json({
+      return res.status(400).json({
         auth: false,
         success: false,
         message: "Your password or email is incorrect",
@@ -166,7 +166,7 @@ exports.signIn = async (req, res) => {
     let passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
     if (!passwordIsValid) {
-      return res.json({
+      return res.status(400).json({
         auth: false,
         success: false,
         message: "Your password or email is incorrect",
@@ -177,7 +177,7 @@ exports.signIn = async (req, res) => {
       expiresIn: "365d",
     });
 
-    return res.json({
+    return res.status(200).json({
       auth: true,
       success: "true",
       accesstoken: token,
@@ -210,20 +210,20 @@ exports.fetchUser = async (req, res) => {
       ],
     });
     if (!Boolean(existingUser)) {
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "User does not exist!",
       });
     }
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "User retrived successfully",
       data: existingUser,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 
@@ -244,13 +244,13 @@ exports.listUsers = async (req, res) => {
       ],
     });
 
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Fetched all users!",
       data: { users, total },
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };

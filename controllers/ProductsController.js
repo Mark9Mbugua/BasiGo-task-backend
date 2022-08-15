@@ -13,14 +13,14 @@ exports.createProduct = async (req, res) => {
       description,
     });
 
-    res.json({
+    res.status(201).json({
       success: true,
       message: "Product created successfully",
       data: newProduct,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 
@@ -36,24 +36,24 @@ exports.fetchProductDetails = async (req, res) => {
       where: { id: Number(id) },
     });
     if (!Boolean(existingProduct)) {
-      return res.json({
+      return res.status(400).json({
         success: false,
         message: "Product does not exist!",
       });
     }
-    res.json({
+    res.status(400).json({
       success: true,
       message: "Product retrived successfully",
       data: existingProduct,
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
 
 /**
- * List All Product
+ * List All Products
  * @param {*} req
  * @param {*} res
  */
@@ -63,13 +63,13 @@ exports.listAllProducts = async (req, res) => {
     const leads = await db.products.findAll({
       order: [["createdAt", "DESC"]],
     });
-    res.json({
+    res.status(200).json({
       success: true,
       message: "Fetched All Products!",
       data: { leads, total },
     });
   } catch (error) {
     console.log(error);
-    res.json({ success: false, message: "An error occured!" });
+    res.status(400).json({ success: false, message: "An error occured!" });
   }
 };
